@@ -5,7 +5,7 @@ import random
 app = FastAPI(
     title="MOTRYVA",
     description="AI Vehicle Health & Diagnostic Platform",
-    version="0.4.0"
+    version="0.5.0"
 )
 
 
@@ -40,6 +40,69 @@ def estimate_life(health, max_km):
         "estimated_remaining_km": remaining_km,
         "condition": condition
     }
+
+
+def recommendations(engine, battery, brakes, tires, coolant_temperature, tire_pressure):
+    items = []
+
+    if engine < 90:
+        items.append({
+            "component": "engine",
+            "priority": "medium",
+            "action": "Schedule an engine inspection",
+            "reason": "Engine health is below optimal level"
+        })
+
+    if battery < 90:
+        items.append({
+            "component": "battery",
+            "priority": "medium",
+            "action": "Check battery condition and charging system",
+            "reason": "Battery health is below optimal level"
+        })
+
+    if brakes < 85:
+        items.append({
+            "component": "brakes",
+            "priority": "high",
+            "action": "Inspect the brake system",
+            "reason": "Brake health requires attention"
+        })
+
+    if tires < 85:
+        items.append({
+            "component": "tires",
+            "priority": "medium",
+            "action": "Inspect tire condition and tread",
+            "reason": "Tire health is below optimal level"
+        })
+
+    if coolant_temperature > 100:
+        items.append({
+            "component": "cooling_system",
+            "priority": "high",
+            "action": "Inspect the cooling system",
+            "reason": "Coolant temperature is unusually high"
+        })
+
+    for tire, pressure in tire_pressure.items():
+        if pressure < 30:
+            items.append({
+                "component": tire,
+                "priority": "medium",
+                "action": "Check and adjust tire pressure",
+                "reason": "Tire pressure is below recommended range"
+            })
+
+    if not items:
+        items.append({
+            "component": "vehicle",
+            "priority": "low",
+            "action": "Continue normal maintenance",
+            "reason": "No immediate maintenance action detected"
+        })
+
+    return items
 
 
 @app.get("/vehicle/status")
@@ -116,6 +179,15 @@ def vehicle_status():
         "tires": estimate_life(tires, 60000)
     }
 
+    maintenance_recommendations = recommendations(
+        engine,
+        battery,
+        brakes,
+        tires,
+        coolant_temperature,
+        tire_pressure
+    )
+
     return {
         "vehicle_health": vehicle_health,
         "vehicle_status": health_status(vehicle_health),
@@ -140,6 +212,8 @@ def vehicle_status():
         "alerts": alerts,
 
         "predictive_maintenance": predictions,
+
+        "maintenance_recommendations": maintenance_recommendations,
 
         "simulation": True,
         "timestamp": datetime.now().isoformat()
