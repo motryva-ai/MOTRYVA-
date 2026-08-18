@@ -27,4 +27,3 @@ def vehicle_status():
         "tires": 100,
         "timestamp": datetime.now().isoformat()
     }
-}
