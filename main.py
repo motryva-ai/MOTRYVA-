@@ -5,7 +5,7 @@ import random
 app = FastAPI(
     title="MOTRYVA",
     description="AI Vehicle Health & Diagnostic Platform",
-    version="0.2.0"
+    version="0.3.0"
 )
 
 
@@ -18,33 +18,105 @@ def home():
     }
 
 
+def health_status(value):
+    if value >= 90:
+        return "healthy"
+    elif value >= 75:
+        return "attention"
+    else:
+        return "critical"
+
+
 @app.get("/vehicle/status")
 def vehicle_status():
-    # Virtual Vehicle - simulation for prototype testing
-    engine = random.randint(94, 100)
-    battery = random.randint(92, 100)
-    brakes = random.randint(90, 100)
-    tires = random.randint(88, 100)
+
+    engine = random.randint(80, 100)
+    battery = random.randint(80, 100)
+    brakes = random.randint(75, 100)
+    tires = random.randint(70, 100)
 
     vehicle_health = round(
         (engine + battery + brakes + tires) / 4
     )
 
+    speed = random.randint(0, 120)
+    coolant_temperature = random.randint(82, 105)
+
+    tire_pressure = {
+        "front_left": random.randint(28, 36),
+        "front_right": random.randint(28, 36),
+        "rear_left": random.randint(28, 36),
+        "rear_right": random.randint(28, 36)
+    }
+
+    alerts = []
+
+    if engine < 90:
+        alerts.append({
+            "component": "engine",
+            "severity": "warning",
+            "message": "Engine health requires attention"
+        })
+
+    if battery < 90:
+        alerts.append({
+            "component": "battery",
+            "severity": "warning",
+            "message": "Battery health is below optimal level"
+        })
+
+    if brakes < 85:
+        alerts.append({
+            "component": "brakes",
+            "severity": "critical",
+            "message": "Brake system requires inspection"
+        })
+
+    if tires < 85:
+        alerts.append({
+            "component": "tires",
+            "severity": "warning",
+            "message": "Tire condition requires attention"
+        })
+
+    if coolant_temperature > 100:
+        alerts.append({
+            "component": "cooling_system",
+            "severity": "critical",
+            "message": "Coolant temperature is too high"
+        })
+
+    for tire, pressure in tire_pressure.items():
+        if pressure < 30:
+            alerts.append({
+                "component": tire,
+                "severity": "warning",
+                "message": "Tire pressure is low"
+            })
+
     return {
         "vehicle_health": vehicle_health,
+        "vehicle_status": health_status(vehicle_health),
+
         "engine": engine,
+        "engine_status": health_status(engine),
+
         "battery": battery,
+        "battery_status": health_status(battery),
+
         "brakes": brakes,
+        "brakes_status": health_status(brakes),
+
         "tires": tires,
-        "vehicle_speed_kmh": random.randint(0, 120),
-        "coolant_temperature_c": random.randint(82, 96),
-        "tire_pressure_psi": {
-            "front_left": random.randint(31, 35),
-            "front_right": random.randint(31, 35),
-            "rear_left": random.randint(31, 35),
-            "rear_right": random.randint(31, 35)
-        },
-        "alerts": [],
+        "tires_status": health_status(tires),
+
+        "vehicle_speed_kmh": speed,
+        "coolant_temperature_c": coolant_temperature,
+
+        "tire_pressure_psi": tire_pressure,
+
+        "alerts": alerts,
+
         "simulation": True,
         "timestamp": datetime.now().isoformat()
     }
