@@ -5,7 +5,7 @@ import random
 app = FastAPI(
     title="MOTRYVA",
     description="AI Vehicle Health & Diagnostic Platform",
-    version="0.3.0"
+    version="0.4.0"
 )
 
 
@@ -23,8 +23,23 @@ def health_status(value):
         return "healthy"
     elif value >= 75:
         return "attention"
+    return "critical"
+
+
+def estimate_life(health, max_km):
+    remaining_km = round(max_km * health / 100)
+
+    if health >= 90:
+        condition = "good"
+    elif health >= 75:
+        condition = "monitor"
     else:
-        return "critical"
+        condition = "service_soon"
+
+    return {
+        "estimated_remaining_km": remaining_km,
+        "condition": condition
+    }
 
 
 @app.get("/vehicle/status")
@@ -94,6 +109,13 @@ def vehicle_status():
                 "message": "Tire pressure is low"
             })
 
+    predictions = {
+        "engine": estimate_life(engine, 100000),
+        "battery": estimate_life(battery, 80000),
+        "brakes": estimate_life(brakes, 50000),
+        "tires": estimate_life(tires, 60000)
+    }
+
     return {
         "vehicle_health": vehicle_health,
         "vehicle_status": health_status(vehicle_health),
@@ -116,6 +138,8 @@ def vehicle_status():
         "tire_pressure_psi": tire_pressure,
 
         "alerts": alerts,
+
+        "predictive_maintenance": predictions,
 
         "simulation": True,
         "timestamp": datetime.now().isoformat()
