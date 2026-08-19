@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from datetime import datetime
-import random
+from fastapi.responses import FileResponse
 
 app = FastAPI(
     title="MOTRYVA",
@@ -18,14 +17,10 @@ def home():
     }
 
 
-def health_status(value):
-    if value >= 90:
-        return "healthy"
-    elif value >= 75:
-        return "attention"
-    return "critical"
+@app.get("/dashboard")
 
-
+def dashboard():
+    return FileResponse("dashboard/index.html")
 def estimate_life(health, max_km):
     remaining_km = round(max_km * health / 100)
 
