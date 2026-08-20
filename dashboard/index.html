@@ -187,5 +187,71 @@ header {
   <span id="rearRight">--</span> PSI</p>
 
 </section>
-
 </div>
+<script>
+async function loadVehicleData() {
+  try {
+    const response = await fetch("/vehicle/status");
+    const data = await response.json();
+
+    document.getElementById("vehicleHealth").textContent =
+      data.vehicle_health + "%";
+
+    document.getElementById("vehicleStatus").textContent =
+      data.vehicle_status;
+
+    document.getElementById("engine").textContent =
+      data.engine + "%";
+
+    document.getElementById("engineStatus").textContent =
+      data.engine_status;
+
+    document.getElementById("battery").textContent =
+      data.battery + "%";
+
+    document.getElementById("batteryStatus").textContent =
+      data.battery_status;
+
+    document.getElementById("brakes").textContent =
+      data.brakes + "%";
+
+    document.getElementById("brakesStatus").textContent =
+      data.brakes_status;
+
+    document.getElementById("tires").textContent =
+      data.tires + "%";
+
+    document.getElementById("tiresStatus").textContent =
+      data.tires_status;
+
+    document.getElementById("speed").textContent =
+      data.vehicle_speed_kmh;
+
+    document.getElementById("coolant").textContent =
+      data.coolant_temperature_c;
+
+    document.getElementById("frontLeft").textContent =
+      data.tire_pressure_psi.front_left;
+
+    document.getElementById("frontRight").textContent =
+      data.tire_pressure_psi.front_right;
+
+    document.getElementById("rearLeft").textContent =
+      data.tire_pressure_psi.rear_left;
+
+    document.getElementById("rearRight").textContent =
+      data.tire_pressure_psi.rear_right;
+
+  } catch (error) {
+    document.getElementById("vehicleStatus").textContent =
+      "Unable to load vehicle data";
+  }
+}
+
+loadVehicleData();
+
+setInterval(loadVehicleData, 5000);
+</script>
+
+</body>
+</html>
