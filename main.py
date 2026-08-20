@@ -213,10 +213,3 @@ def vehicle_status():
         "simulation": True,
         "timestamp": datetime.now().isoformat()
     }
-@app.get("/auto-test")
-def run_auto_test():
-    return {
-        "status": "success",
-        "message": "MOTRYVA auto-test passed successfully",
-        "system_check": "all modules operational"
-    }
