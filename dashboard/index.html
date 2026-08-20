@@ -1,20 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MOTRYVA | Vehicle Health</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTRYVA | Vehicle Health</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      background: #0b1117;
-      color: #f5f7fa;
-      min-height: 100vh;
-    }
+body {
+  background: #0b1117;
+  color: #f5f7fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #111a23;
+  border-radius: 16px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #9aa7b4;
+  margin-top: 5px;
+}
+
+.online {
+  color: #35d07f;
+  font-weight: bold;
+}
+
+.health {
+  background: #111a23;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.health h2 {
+  color: #9aa7b4;
+  margin-bottom: 10px;
+}
+
+.score {
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #111a23;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+}
+
+.value {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.status {
+  color: #35d07f;
+  margin-top: 6px;
+}
+
+.info {
+  margin-top: 20px;
+  background: #111a23;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.info p {
+  margin: 8px 0;
+  color: #c5ced8;
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header>
+  <div>
+    <div class="logo">MOTRYVA</div>
+    <div class="subtitle">AI Vehicle Health & Diagnostic Platform</div>
+  </div>
+
+  <div class="online">● SYSTEM ONLINE</div>
+</header>
+
+<section class="health">
+  <h2>Vehicle Health</h2>
+  <div class="score" id="vehicleHealth">--%</div>
+  <div id="vehicleStatus">Loading...</div>
+</section>
+
+<section class="grid">
+
+<div class="card">
+  <h3>Engine</h3>
+  <div class="value" id="engine">--%</div>
+  <div class="status" id="engineStatus">Loading...</div>
+</div>
+
+<div class="card">
+  <h3>Battery</h3>
+  <div class="value" id="battery">--%</div>
+  <div class="status" id="batteryStatus">Loading...</div>
+</div>
+
+<div class="card">
+  <h3>Brakes</h3>
+  <div class="value" id="brakes">--%</div>
+  <div class="status" id="brakesStatus">Loading...</div>
+</div>
+
+<div class="card">
+  <h3>Tires</h3>
+  <div class="value" id="tires">--%</div>
+  <div class="status" id="tiresStatus">Loading...</div>
+</div>
+
+</section>
+
+<section class="info">
+  <h3>Live Vehicle Data</h3>
+
+  <p>Speed: <span id="speed">--</span> km/h</p>
+
+  <p>Coolant Temperature:
+  <span id="coolant">--</span> °C</p>
+
+  <p>Front Left Tire:
+  <span id="frontLeft">--</span> PSI</p>
+
+  <p>Front Right Tire:
+  <span id="frontRight">--</span> PSI</p>
+
+  <p>Rear Left Tire:
+  <span id="rearLeft">--</span> PSI</p>
+
+  <p>Rear Right Tire:
+  <span id="rearRight">--</span> PSI</p>
+
+</section>
+
+</div>
