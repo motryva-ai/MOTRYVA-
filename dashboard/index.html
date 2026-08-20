@@ -3,254 +3,637 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MOTRYVA | Vehicle Health</title>
 
 <style>
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 body {
-  background: #0b1117;
-  color: #f5f7fa;
-  min-height: 100vh;
-  padding: 20px;
+    background: #0b1117;
+    color: #f5f7fa;
+    min-height: 100vh;
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  padding: 20px;
-  background: #111a23;
-  border-radius: 16px;
+.header {
+    background: #111a23;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #263442;
 }
 
 .logo {
-  font-size: 28px;
-  font-weight: bold;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-.subtitle {
-  color: #9aa7b4;
-  margin-top: 5px;
-}
-
-.online {
-  color: #35d07f;
-  font-weight: bold;
-}
-
-.health {
-  background: #111a23;
-  padding: 25px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.health h2 {
-  color: #9aa7b4;
-  margin-bottom: 10px;
-}
-
-.score {
-  font-size: 64px;
-  font-weight: bold;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.card {
-  background: #111a23;
-  padding: 20px;
-  border-radius: 16px;
-}
-
-.card h3 {
-  margin-bottom: 12px;
-}
-
-.value {
-  font-size: 30px;
-  font-weight: bold;
+.logo span {
+    color: #00e5ff;
 }
 
 .status {
-  color: #35d07f;
-  margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #5cff9d;
+    font-size: 14px;
 }
 
-.info {
-  margin-top: 20px;
-  background: #111a23;
-  padding: 20px;
-  border-radius: 16px;
+.dot {
+    width: 9px;
+    height: 9px;
+    background: #35ff8b;
+    border-radius: 50%;
 }
 
-.info p {
-  margin: 8px 0;
-  color: #c5ced8;
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
 }
 
-@media (max-width: 700px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+.welcome {
+    margin-bottom: 25px;
+}
 
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #8e9aa7;
+}
+
+.health-card {
+    background: linear-gradient(135deg, #14222d, #101820);
+    border: 1px solid #263947;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 22px;
+}
+
+.health-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.health-title {
+    color: #9aa8b5;
+    font-size: 14px;
+}
+
+.health-number {
+    font-size: 58px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.health-status {
+    color: #5cff9d;
+    font-size: 17px;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #24313d;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #00e5ff;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.card {
+    background: #111a23;
+    border: 1px solid #263442;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.card-title {
+    color: #8997a5;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.card-value {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.card-status {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #5cff9d;
+}
+
+.warning {
+    color: #ffd166 !important;
+}
+
+.critical {
+    color: #ff5c6c !important;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.info-card {
+    background: #111a23;
+    border: 1px solid #263442;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.info-card h3 {
+    margin-bottom: 18px;
+    font-size: 18px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #202c37;
+    color: #aab5bf;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.alert {
+    margin-top: 22px;
+    background: #21191a;
+    border: 1px solid #633237;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.alert h3 {
+    color: #ff6875;
+    margin-bottom: 8px;
+}
+
+.alert p {
+    color: #c8cdd2;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    color: #65717c;
+    font-size: 12px;
+    padding: 30px 0;
+}
+
+@media (max-width: 850px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 15px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .health-number {
+        font-size: 45px;
+    }
+
+    .header {
+        padding: 15px;
+    }
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<header class="header">
+    <div class="logo">MOTRY<span>VA</span></div>
 
-<header>
-  <div>
-    <div class="logo">MOTRYVA</div>
-    <div class="subtitle">AI Vehicle Health & Diagnostic Platform</div>
-  </div>
-
-  <div class="online">● SYSTEM ONLINE</div>
+    <div class="status">
+        <div class="dot"></div>
+        API CONNECTED
+    </div>
 </header>
 
-<section class="health">
-  <h2>Vehicle Health</h2>
-  <div class="score" id="vehicleHealth">--%</div>
-  <div id="vehicleStatus">Loading...</div>
-</section>
+<main class="container">
 
-<section class="grid">
+    <section class="welcome">
+        <h1 id="greeting">Good Day</h1>
+        <p id="datetime">Loading vehicle time...</p>
+    </section>
 
-<div class="card">
-  <h3>Engine</h3>
-  <div class="value" id="engine">--%</div>
-  <div class="status" id="engineStatus">Loading...</div>
-</div>
+    <section class="health-card">
 
-<div class="card">
-  <h3>Battery</h3>
-  <div class="value" id="battery">--%</div>
-  <div class="status" id="batteryStatus">Loading...</div>
-</div>
+        <div class="health-top">
 
-<div class="card">
-  <h3>Brakes</h3>
-  <div class="value" id="brakes">--%</div>
-  <div class="status" id="brakesStatus">Loading...</div>
-</div>
+            <div>
+                <div class="health-title">VEHICLE HEALTH</div>
 
-<div class="card">
-  <h3>Tires</h3>
-  <div class="value" id="tires">--%</div>
-  <div class="status" id="tiresStatus">Loading...</div>
-</div>
+                <div class="health-number">
+                    <span id="vehicleHealth">--</span>%
+                </div>
 
-</section>
+                <div id="vehicleStatus" class="health-status">
+                    Loading...
+                </div>
+            </div>
 
-<section class="info">
-  <h3>Live Vehicle Data</h3>
+        </div>
 
-  <p>Speed: <span id="speed">--</span> km/h</p>
+        <div class="progress">
+            <div id="healthBar" class="progress-bar"></div>
+        </div>
 
-  <p>Coolant Temperature:
-  <span id="coolant">--</span> °C</p>
+    </section>
 
-  <p>Front Left Tire:
-  <span id="frontLeft">--</span> PSI</p>
+    <section class="grid">
 
-  <p>Front Right Tire:
-  <span id="frontRight">--</span> PSI</p>
+        <div class="card">
+            <div class="card-title">ENGINE</div>
+            <div class="card-value">
+                <span id="engine">--</span>%
+            </div>
+            <div id="engineStatus" class="card-status">
+                Loading...
+            </div>
+        </div>
 
-  <p>Rear Left Tire:
-  <span id="rearLeft">--</span> PSI</p>
+        <div class="card">
+            <div class="card-title">BATTERY</div>
+            <div class="card-value">
+                <span id="battery">--</span>%
+            </div>
+            <div id="batteryStatus" class="card-status">
+                Loading...
+            </div>
+        </div>
 
-  <p>Rear Right Tire:
-  <span id="rearRight">--</span> PSI</p>
+        <div class="card">
+            <div class="card-title">BRAKES</div>
+            <div class="card-value">
+                <span id="brakes">--</span>%
+            </div>
+            <div id="brakesStatus" class="card-status">
+                Loading...
+            </div>
+        </div>
 
-</section>
-</div>
+        <div class="card">
+            <div class="card-title">TIRES</div>
+            <div class="card-value">
+                <span id="tires">--</span>%
+            </div>
+            <div id="tiresStatus" class="card-status">
+                Loading...
+            </div>
+        </div>
+
+    </section>
+
+    <section class="info-grid">
+
+        <div class="info-card">
+
+            <h3>Live Vehicle Data</h3>
+
+            <div class="info-row">
+                <span>Speed</span>
+                <span><b id="speed">--</b> km/h</span>
+            </div>
+
+            <div class="info-row">
+                <span>Coolant Temperature</span>
+                <span><b id="coolant">--</b> °C</span>
+            </div>
+
+        </div>
+
+        <div class="info-card">
+
+            <h3>Tire Pressure</h3>
+
+            <div class="info-row">
+                <span>Front Left</span>
+                <span><b id="fl">--</b> PSI</span>
+            </div>
+
+            <div class="info-row">
+                <span>Front Right</span>
+                <span><b id="fr">--</b> PSI</span>
+            </div>
+
+            <div class="info-row">
+                <span>Rear Left</span>
+                <span><b id="rl">--</b> PSI</span>
+            </div>
+
+            <div class="info-row">
+                <span>Rear Right</span>
+                <span><b id="rr">--</b> PSI</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="alert">
+
+        <h3>SMART ALERT</h3>
+
+        <p id="alertText">
+            Analyzing vehicle condition...
+        </p>
+
+    </section>
+
+    <footer class="footer">
+        MOTRYVA AI Vehicle Health & Diagnostic Platform
+    </footer>
+
+</main>
+
 <script>
-async function loadVehicleData() {
-  try {
-    const response = await fetch("/vehicle/status");
-    const data = await response.json();
 
-    document.getElementById("vehicleHealth").textContent =
-      data.vehicle_health + "%";
+/*
+====================================================
+MOTRYVA API
+====================================================
+*/
 
-    document.getElementById("vehicleStatus").textContent =
-      data.vehicle_status;
+const API_URL = "/api/vehicle-health";
 
-    document.getElementById("engine").textContent =
-      data.engine + "%";
 
-    document.getElementById("engineStatus").textContent =
-      data.engine_status;
+/*
+====================================================
+TIME & GREETING
+====================================================
+*/
 
-    document.getElementById("battery").textContent =
-      data.battery + "%";
+function updateTime() {
 
-    document.getElementById("batteryStatus").textContent =
-      data.battery_status;
+    const now = new Date();
 
-    document.getElementById("brakes").textContent =
-      data.brakes + "%";
+    const hour = now.getHours();
 
-    document.getElementById("brakesStatus").textContent =
-      data.brakes_status;
+    let greeting;
 
-    document.getElementById("tires").textContent =
-      data.tires + "%";
+    if (hour >= 0 && hour < 4) {
+        greeting = "Good Midnight";
+    }
+    else if (hour >= 4 && hour < 9) {
+        greeting = "Good Morning";
+    }
+    else if (hour >= 9 && hour < 18) {
+        greeting = "Good Day";
+    }
+    else if (hour >= 18 && hour < 20) {
+        greeting = "Good Evening";
+    }
+    else {
+        greeting = "Good Night";
+    }
 
-    document.getElementById("tiresStatus").textContent =
-      data.tires_status;
+    document.getElementById("greeting").textContent = greeting;
 
-    document.getElementById("speed").textContent =
-      data.vehicle_speed_kmh;
+    document.getElementById("datetime").textContent =
+        now.toLocaleDateString() + " • " +
+        now.toLocaleTimeString();
 
-    document.getElementById("coolant").textContent =
-      data.coolant_temperature_c;
-
-    document.getElementById("frontLeft").textContent =
-      data.tire_pressure_psi.front_left;
-
-    document.getElementById("frontRight").textContent =
-      data.tire_pressure_psi.front_right;
-
-    document.getElementById("rearLeft").textContent =
-      data.tire_pressure_psi.rear_left;
-
-    document.getElementById("rearRight").textContent =
-      data.tire_pressure_psi.rear_right;
-
-  } catch (error) {
-    document.getElementById("vehicleStatus").textContent =
-      "Unable to load vehicle data";
-  }
 }
+
+setInterval(updateTime, 1000);
+
+updateTime();
+
+
+/*
+====================================================
+STATUS COLOR
+====================================================
+*/
+
+function setStatus(elementId, status) {
+
+    const element = document.getElementById(elementId);
+
+    element.classList.remove("warning");
+    element.classList.remove("critical");
+
+    if (status === "critical") {
+        element.classList.add("critical");
+    }
+    else if (status === "attention" || status === "warning") {
+        element.classList.add("warning");
+    }
+
+}
+
+
+/*
+====================================================
+LOAD VEHICLE DATA
+====================================================
+*/
+
+async function loadVehicleData() {
+
+    try {
+
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+            throw new Error("API Error");
+        }
+
+        const data = await response.json();
+
+
+        /*
+        VEHICLE HEALTH
+        */
+
+        document.getElementById("vehicleHealth").textContent =
+            data.vehicle_health;
+
+        document.getElementById("vehicleStatus").textContent =
+            data.vehicle_status.toUpperCase();
+
+        document.getElementById("healthBar").style.width =
+            data.vehicle_health + "%";
+
+        setStatus("vehicleStatus", data.vehicle_status);
+
+
+        /*
+        ENGINE
+        */
+
+        document.getElementById("engine").textContent =
+            data.engine;
+
+        document.getElementById("engineStatus").textContent =
+            data.engine_status.toUpperCase();
+
+        setStatus("engineStatus", data.engine_status);
+
+
+        /*
+        BATTERY
+        */
+
+        document.getElementById("battery").textContent =
+            data.battery;
+
+        document.getElementById("batteryStatus").textContent =
+            data.battery_status.toUpperCase();
+
+        setStatus("batteryStatus", data.battery_status);
+
+
+        /*
+        BRAKES
+        */
+
+        document.getElementById("brakes").textContent =
+            data.brakes;
+
+        document.getElementById("brakesStatus").textContent =
+            data.brakes_status.toUpperCase();
+
+        setStatus("brakesStatus", data.brakes_status);
+
+
+        /*
+        TIRES
+        */
+
+        document.getElementById("tires").textContent =
+            data.tires;
+
+        document.getElementById("tiresStatus").textContent =
+            data.tires_status.toUpperCase();
+
+        setStatus("tiresStatus", data.tires_status);
+
+
+        /*
+        LIVE DATA
+        */
+
+        document.getElementById("speed").textContent =
+            data.vehicle_speed_kmh;
+
+        document.getElementById("coolant").textContent =
+            data.coolant_temperature_c;
+
+
+        /*
+        TIRE PRESSURE
+        */
+
+        document.getElementById("fl").textContent =
+            data.tire_pressure_psi.front_left;
+
+        document.getElementById("fr").textContent =
+            data.tire_pressure_psi.front_right;
+
+        document.getElementById("rl").textContent =
+            data.tire_pressure_psi.rear_left;
+
+        document.getElementById("rr").textContent =
+            data.tire_pressure_psi.rear_right;
+
+
+        /*
+        SMART ALERT
+        */
+
+        if (data.tires_status === "critical") {
+
+            document.getElementById("alertText").textContent =
+                "Tire condition requires immediate attention. MOTRYVA recommends checking tire pressure and tire condition.";
+
+        }
+        else if (data.vehicle_status === "attention") {
+
+            document.getElementById("alertText").textContent =
+                "MOTRYVA detected a condition that requires attention. Please inspect the vehicle soon.";
+
+        }
+        else {
+
+            document.getElementById("alertText").textContent =
+                "Vehicle systems are operating within healthy parameters.";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("vehicleStatus").textContent =
+            "API CONNECTION ERROR";
+
+        document.getElementById("alertText").textContent =
+            "Unable to connect to MOTRYVA vehicle health API.";
+
+    }
+
+}
+
+
+/*
+====================================================
+AUTO REFRESH
+====================================================
+*/
 
 loadVehicleData();
 
 setInterval(loadVehicleData, 5000);
+
 </script>
 
 </body>
