@@ -1,11 +1,23 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from datetime import datetime
+import random
+import os
 
 app = FastAPI(
     title="MOTRYVA",
     description="AI Vehicle Health & Diagnostic Platform",
     version="0.5.0"
 )
+
+
+def health_status(health):
+    if health >= 90:
+        return "healthy"
+    elif health >= 75:
+        return "attention"
+    else:
+        return "critical"
 
 
 @app.get("/")
@@ -18,9 +30,10 @@ def home():
 
 
 @app.get("/dashboard")
-
 def dashboard():
     return FileResponse("dashboard/index.html")
+
+
 def estimate_life(health, max_km):
     remaining_km = round(max_km * health / 100)
 
@@ -37,7 +50,14 @@ def estimate_life(health, max_km):
     }
 
 
-def recommendations(engine, battery, brakes, tires, coolant_temperature, tire_pressure):
+def recommendations(
+    engine,
+    battery,
+    brakes,
+    tires,
+    coolant_temperature,
+    tire_pressure
+):
     items = []
 
     if engine < 90:
@@ -211,5 +231,6 @@ def vehicle_status():
         "maintenance_recommendations": maintenance_recommendations,
 
         "simulation": True,
+
         "timestamp": datetime.now().isoformat()
     }
